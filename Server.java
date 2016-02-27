@@ -98,6 +98,8 @@ class Server implements Runnable {
                             cio.maintain();
                     }
                 }
+                if(server.factory.requestedShutdown())
+                    server.shutdown();
             }
         }
     }
