@@ -8,9 +8,9 @@ class Server implements Runnable {
     {
         internalSocket = new ServerSocket(port);
         factory = cf;
-        threads.execute(new MaintainClients(this));
     }
     public void run() {
+        threads.execute(new MaintainClients(this));
         while(!serverShutdown)
         try {
             Socket newCon = internalSocket.accept();
@@ -25,7 +25,6 @@ class Server implements Runnable {
             }
         } catch(IOException ie) {
             shutdown();
-            break;
         }
     }
     public synchronized void shutdown() {
