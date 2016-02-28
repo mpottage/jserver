@@ -24,7 +24,7 @@ class Server implements Runnable {
                     newCon.close();
             }
         } catch(IOException ie) {
-            shutdown();
+            shutdown(); //Unable to acquire new sockets, so stop the server.
         }
     }
     public synchronized void shutdown() {
@@ -32,8 +32,8 @@ class Server implements Runnable {
             internalSocket.close();
         } catch(IOException ie) {}
         for(ClientIO client : clients)
-            client.disconnect();
-        threads.shutdown();
+            client.disconnect(); //Let all clients know.
+        threads.shutdown(); //Don't add any more threads.
         serverShutdown = true;
     }
     private class ClientIO implements Runnable {
@@ -70,6 +70,11 @@ class Server implements Runnable {
             }
         }
         public synchronized void maintain() {
+            String msg = handler.popMessage();
+            while(msg!=null) {
+                out.println(msg);
+                msg = handler.popMessage();
+            }
             if(!disconnected && handler.requestedDisconnect())
                 disconnect();
         }

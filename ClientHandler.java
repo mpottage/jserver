@@ -1,6 +1,7 @@
 abstract class ClientHandler {
     public abstract String handle(String in);
-    //public String popMessage();
+    public String popMessage()
+    {   return null;    }
     public boolean requestedDisconnect()
     {   return false;   }
     public String disconnectMessage()
