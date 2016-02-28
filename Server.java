@@ -87,11 +87,13 @@ public class Server implements Runnable {
             //Note: If recieving input fails, the connection is closed.
             while(!disconnected)
             try {
+                maintain();
                 String user = in.readLine();
                 if(user!=null) {
                     synchronized(this) {
                         String res = handler.handle(user);
-                        out.println(res);
+                        if(res!=null)
+                            out.println(res);
                     }
                 }
                 else
