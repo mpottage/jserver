@@ -1,3 +1,4 @@
+//Copyright Matthew Pottage 2016. Licensed under GNU General Public License 2.0.
 /**
  * Used to manage connections to clients (ignoring IO issues).
  * Input/output and message transmission are handled by {@code Server}.

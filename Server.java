@@ -1,8 +1,8 @@
+//Copyright Matthew Pottage 2016. Licensed under GNU General Public License 2.0.
 import java.net.*;
-import java.lang.Exception.*;
 import java.io.*;
 import java.util.concurrent.*;
-import java.util.*;
+import java.util.ArrayList;
 public class Server implements Runnable {
     /**
      * @param port Port to run the server on. If 0 a random port is chosen.

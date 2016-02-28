@@ -1,3 +1,4 @@
+//Copyright Matthew Pottage 2016. Licensed under GNU General Public License 2.0.
 /**
  * Used to make {@code ClientHandler} instances for a {@code Server}.
  * @see Server

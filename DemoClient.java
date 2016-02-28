@@ -1,4 +1,4 @@
-import java.io.*;
+import java.io.IOException;
 class DemoClient extends ClientHandler {
     DemoClient() {
         connectionNo = Integer.toString(++connectionCount);
