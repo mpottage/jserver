@@ -70,15 +70,15 @@ public class Server implements Runnable {
      * @see ClientHandler
      */
     public void run() {
-        threads.execute(new MaintainClients(this));
+        threads.execute(new Maintenance(this));
         while(!serverShutdown)
         try {
             Socket newCon = internalSocket.accept();
             synchronized(this) {
                 if(!serverShutdown) {
-                    ClientIO cio = new ClientIO(factory.make(), newCon);
-                    clients.add(cio);
-                    threads.execute(cio);
+                    ManageClient mc = new ManageClient(factory.make(), newCon);
+                    clients.add(mc);
+                    threads.execute(mc);
                 }
                 else
                     newCon.close();
@@ -95,12 +95,12 @@ public class Server implements Runnable {
         try {
             internalSocket.close();
         } catch(IOException ie) {}
-        for(ClientIO client : clients)
+        for(ManageClient client : clients)
             client.disconnect(); //Let all clients know.
         threads.shutdown(); //Don't add any more threads.
         serverShutdown = true;
     }
-    private class ClientIO implements Runnable {
+    private class ManageClient implements Runnable {
         private Socket socket;
         private BufferedReader in;
         private PrintWriter out;
@@ -109,7 +109,7 @@ public class Server implements Runnable {
         // h - Server object managing the client connection.
         // s - Socket to the client.
         // Note: If setup fails, the connection is closed.
-        public ClientIO(ClientHandler h, Socket s) {
+        public ManageClient(ClientHandler h, Socket s) {
             handler = h;
             socket  = s;
             try {
@@ -163,16 +163,16 @@ public class Server implements Runnable {
         public boolean isDisconnected()
         {   return disconnected;    }
     }
-    private class MaintainClients implements Runnable {
+    private class Maintenance implements Runnable {
         private Server server;
-        public MaintainClients(Server s)
+        public Maintenance(Server s)
         {   server = s;    }
         public void run() {
             while(!server.serverShutdown) {
                 synchronized(server) {
-                    for(ClientIO cio : server.clients) {
-                        if(!cio.isDisconnected())
-                            cio.maintain();
+                    for(ManageClient mc : server.clients) {
+                        if(!mc.isDisconnected())
+                            mc.maintain();
                     }
                 }
                 if(server.factory.requestedShutdown())
@@ -182,7 +182,7 @@ public class Server implements Runnable {
     }
     private ServerSocket internalSocket;
     private ClientFactory factory;
-    private ArrayList<ClientIO> clients = new ArrayList<ClientIO>();
+    private ArrayList<ManageClient> clients = new ArrayList<ManageClient>();
     private ExecutorService threads = Executors.newCachedThreadPool();;
     private boolean serverShutdown = false;
 }
