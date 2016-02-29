@@ -138,6 +138,10 @@ public class Server implements Runnable {
             catch(IOException ie) {
                 disconnect(); //Connection lost.
             }
+            catch(RuntimeException re) { //handler raised exception.
+                disconnect(); //Handler failed, prevent the client from hanging.
+                throw re;
+            }
         }
         // Pushes any messages from the handler to the client, then disconnects
         //  if the handler requests it.
