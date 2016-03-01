@@ -70,7 +70,9 @@ public class Server implements Runnable {
      * @see ClientHandler
      */
     public void run() {
-        threads.execute(new Maintenance(this));
+        //Maintain clients (disconnect and push messages).
+        threads.execute(new Maintenance());
+        //Recieve connections.
         while(!serverShutdown)
         try {
             Socket newCon = internalSocket.accept();
@@ -100,7 +102,7 @@ public class Server implements Runnable {
         threads.shutdown(); //Don't add any more threads.
         serverShutdown = true;
     }
-    private class ManageClient implements Runnable {
+    private static class ManageClient implements Runnable {
         private Socket socket;
         private BufferedReader in;
         private PrintWriter out;
@@ -167,20 +169,17 @@ public class Server implements Runnable {
         public boolean isDisconnected()
         {   return disconnected;    }
     }
-    private class Maintenance implements Runnable {
-        private Server server;
-        public Maintenance(Server s)
-        {   server = s;    }
+    class Maintenance implements Runnable {
         public void run() {
-            while(!server.serverShutdown) {
-                synchronized(server) {
-                    for(ManageClient mc : server.clients) {
+            while(!serverShutdown) {
+                synchronized(Server.this) {
+                    for(ManageClient mc : clients) {
                         if(!mc.isDisconnected())
                             mc.maintain();
                     }
                 }
-                if(server.factory.requestedShutdown())
-                    server.shutdown();
+                if(factory.requestedShutdown())
+                    shutdown();
             }
         }
     }
