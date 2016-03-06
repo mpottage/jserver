@@ -173,8 +173,13 @@ public class Server implements Runnable {
         public void run() {
             while(!serverShutdown) {
                 synchronized(Server.this) {
-                    for(ManageClient mc : clients) {
-                        if(!mc.isDisconnected())
+                    for(int i=0; i<clients.size(); ++i) {
+                        ManageClient mc = clients.get(i);
+                        if(mc.isDisconnected()) {
+                            clients.remove(i);
+                            --i;
+                        }
+                        else
                             mc.maintain();
                     }
                     if(factory.requestedShutdown())
