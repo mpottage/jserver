@@ -87,6 +87,9 @@ public class Server implements Runnable {
             }
         } catch(IOException ie) {
             shutdown(); //Unable to acquire new sockets, so stop the server.
+        } catch(Exception e) {
+            shutdown();
+            throw e;
         }
     }
     /**
