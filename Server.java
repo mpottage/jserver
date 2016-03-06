@@ -177,9 +177,9 @@ public class Server implements Runnable {
                         if(!mc.isDisconnected())
                             mc.maintain();
                     }
+                    if(factory.requestedShutdown())
+                        shutdown();
                 }
-                if(factory.requestedShutdown())
-                    shutdown();
             }
         }
     }
