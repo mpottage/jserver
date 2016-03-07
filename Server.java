@@ -87,7 +87,7 @@ public class Server implements Runnable {
             }
         } catch(IOException ie) {
             shutdown(); //Unable to acquire new sockets, so stop the server.
-        } catch(Exception e) {
+        } catch(RuntimeException e) {
             shutdown();
             throw e;
         }
@@ -164,8 +164,11 @@ public class Server implements Runnable {
             if(!disconnected) {
                 try {
                     socket.close();
-                } catch(IOException ie) {}
-                handler.disconnected();
+                    handler.disconnected();
+                } catch(IOException ie) {
+                } catch(RuntimeException e) { //Handler failed.
+                    e.printStackTrace();
+                }
                 disconnected = true;
             }
         }
