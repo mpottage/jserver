@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
+package jserver;
 /**
  * Used to manage connections to clients (ignoring IO issues).
  * Input/output and message transmission are handled by {@code Server}.

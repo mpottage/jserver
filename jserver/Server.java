@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
+package jserver;
 import java.net.*;
 import java.io.*;
 import java.util.concurrent.*;

@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
+package jserver;
 /**
  * Used to make {@code ClientHandler} instances for a {@code Server}.
  * @see Server

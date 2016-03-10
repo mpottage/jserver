@@ -16,9 +16,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
+package demo;
+import jserver.*;
 import java.io.IOException;
-class DemoClient extends ClientHandler {
-    DemoClient() {
+public class Handler extends ClientHandler {
+    Handler() {
         connectionNo = Integer.toString(++connectionCount);
         System.out.println("Connected "+connectionNo);
     }
@@ -45,7 +47,7 @@ class DemoClient extends ClientHandler {
             return null;
     }
     public static void main(String[] str) throws IOException {
-        Server s = new Server(7000, new DemoFactory());
+        Server s = new Server(7000, new Factory());
         s.run();
     }
     static int connectionCount = 0;

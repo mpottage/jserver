@@ -16,8 +16,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,
  * USA.
  */
-class DemoFactory extends ClientFactory {
+package demo;
+import jserver.*;
+class Factory extends ClientFactory {
     public ClientHandler make() {
-        return new DemoClient();
+        return new Handler();
     }
 }
